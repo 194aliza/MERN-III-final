@@ -6,7 +6,7 @@ import { getUsers } from "@/lib/userstorage";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const result = LoginSchema.safeParse(body);
+    const result = loginSchema.safeParse(body);
 
     
     if (!result.success) {
