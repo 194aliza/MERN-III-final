@@ -32,9 +32,11 @@ const httpServer = createServer(app);
 const io = initSocket(httpServer);
 
 // Security Middleware
-app.use(helmet());
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:3000",
+  origin: [
+    "http://localhost:3000",
+    process.env.FRONTEND_URL as string,
+  ],
   credentials: true,
 }));
 app.use(limiter);
