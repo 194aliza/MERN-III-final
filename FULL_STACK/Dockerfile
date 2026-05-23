@@ -3,16 +3,12 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files
-COPY FULL_STACK/package*.json ./
+COPY package*.json ./
 
-# Install dependencies
 RUN npm install --legacy-peer-deps
 
-# Copy all frontend files
-COPY FULL_STACK/. .
+COPY . .
 
-# Build app
 RUN npm run build
 
 
@@ -23,14 +19,10 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-# Copy build files from builder
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
-
-# Optional
-COPY --from=builder /app/next.config.ts ./next.config.ts
 
 EXPOSE 3000
 
